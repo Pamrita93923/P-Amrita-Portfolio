@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Amrita's Portfolio</title>
+  <meta name="description" content="Polishetty Amrita: Front-end developer and designer." />
+  <style>
+    /* ===== CSS RESET (lightweight) ===== */
+    *, *::before, *::after { box-sizing: border-box; }
+    html:focus-within { scroll-behavior: smooth; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; line-height: 1.6; color: #0f172a; background: #ffffff; }
+    img, picture { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; padding: 0; margin: 0; }
+
+  :root {
+  --bg: #f8fafc;;
+  --card: #f8fafc;
+  --text: #0f172a;
+  --muted: #475569;
+  --primary: #2563eb;
+  --primary-600: #1d4ed8;
+  --ring: rgba(37, 99, 235, 0.35);
+  --shadow: 0 10px 25px rgba(2, 6, 23, 0.08);
+  --radius: 14px;
+  } 
+    
+  .container { width: min(1100px, 92%); margin-inline: auto; }
+  .btn { display: inline-block; padding: 0.8rem 1.1rem; border-radius: 999px; font-weight: 600; border: 1px solid transparent; transition: transform .15s ease, background .2s ease, border-color .2s ease; }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 6px 16px rgba(37, 99, 235, .35); }
+  .btn-primary:hover { background: var(--primary-600); }
+  .btn-ghost { background: transparent; border-color: #cbd5e1; color: var(--text); }
+  .btn-ghost:hover { border-color: var(--primary); }
+
+header { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: saturate(160%) blur(8px); border-bottom: 1px solid #e2e8f0; }
+.nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .8rem 0; }
+.brand { display: flex; align-items: center; gap: .6rem; font-weight: 800; letter-spacing: .3px; }
+.brand-badge { display:grid; place-items:center; width: 36px; height: 36px; border-radius: 10px; background: var(--primary); color:#fff; font-weight: 800; box-shadow: var(--shadow); }
+
+.nav-links { display: flex; gap: 1rem; align-items: center; }
+.nav-links a { padding: .55rem .8rem; border-radius: 999px; color: var(--muted); font-weight: 600; }
+.nav-links a.active, .nav-links a:hover { color: var(--text); background: #eef2ff; }
+
+.hamburger { display:none; border:1px solid #cbd5e1; width:42px; height:42px; border-radius: 10px; background:#fff; align-items:center; justify-content:center; }
+.hamburger span { width:20px; height:2px; background:#0f172a; position: relative; display:block; }
+.hamburger span::before, .hamburger span::after { content:""; position:absolute; left:0; width:100%; height:100%; background:#0f172a; transform-origin:center; transition:.2s ease; }
+.hamburger span::before { top:-6px; }
+.hamburger span::after { top:6px; }
+
+
+/* Mobile menu */
+.mobile-menu { display:none; padding: .6rem 0 1rem; }
+.mobile-menu a { display:block; padding:.7rem .9rem; border-radius: 10px; color: var(--muted); font-weight:600; }
+.mobile-menu a:hover { background:black; color:var(--text); }
+
+/* ===== Hero ===== */
+.hero { padding: 4.5rem 0 2.5rem; display:grid; grid-template-columns: 1.2fr .8fr; gap: 2rem; align-items: center; }
+.headline { font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.1; margin: 0 0 1rem; }
+.subhead { font-size: 1.05rem; color: var(--muted); margin-bottom: 1.6rem; }
+.hero-cta { display:flex; gap: .8rem; flex-wrap: wrap; }
+.hero-card { background: linear-gradient(180deg, #f8fafc, #ffffff); border: 1px solid #e5e7eb; padding: 1rem; border-radius: var(--radius); box-shadow: var(--shadow); }
+.avatar { width: 260px; aspect-ratio: 1 / 1; border-radius: 24px; object-fit: cover; border: 6px solid #eef2ff; }
+
+/* ===== Sections ===== */
+section { padding: 3rem 0; }
+.section-title { font-size: clamp(1.4rem, 3vw, 2rem); margin: 0 0 1.2rem; }
+.muted { color: var(--muted); }
+
+
+/* Projects */
+.projects-grid { display:grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+.card { background: var(--card); border: 1px solid #e5e7eb; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); display:flex; flex-direction: column; }
+.card img { aspect-ratio: 16/9; object-fit: cover; }
+.card-body { padding: 1rem; display:flex; flex-direction: column; gap: .6rem; height: 100%; }
+.tags { display:flex; flex-wrap: wrap; gap: .4rem; }
+.tag { font-size: .8rem; background: #eef2ff; padding: .25rem .55rem; border-radius: 999px; border: 1px solid #e2e8f0; }
+.card-actions { margin-top: auto; display:flex; gap: .6rem; }
+
+/* About */
+.about { display:grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; }
+.about p { margin: .4rem 0; }
+.about-blob { background: radial-gradient(80% 80% at 20% 0%, #e0e7ff 0%, transparent 60%), radial-gradient(80% 80% at 110% 50%, #dbeafe 0%, transparent 60%); border-radius: 24px; padding: 1rem; }
+
+/* Experience */
+.timeline { border-left: 2px solid #e5e7eb; padding-left: 1rem; display: grid; gap: 1.2rem; }
+.timeline .item { position: relative; }
+.timeline .item::before { content: ""; position: absolute; left: -10px; top: 0.35rem; width: 10px; height: 10px; border-radius: 999px; background: var(--primary); box-shadow: 0 0 0 4px #e0e7ff; }
+.item h4 { margin: 0; }
+
+/* Skills */
+.skills { display:flex; flex-wrap: wrap; gap: .5rem; }
+.skill { padding: .5rem .8rem; background: #f1f5f9; border:1px solid #e5e7eb; border-radius: 999px; font-weight:600; cursor: pointer; transition: background .2s ease, color .2s ease, border-color .2s ease; }
+.skill.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+
+/* Footer */
+footer { border-top: 1px solid #e2e8f0; padding: 1.2rem 0; color: var(--muted); }
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; text-align: center; }
+  .hero-cta { justify-content: center; }
+  .about { grid-template-columns: 1fr; }
+  .projects-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .nav-links { display:none; }
+  .hamburger { display:flex; }
+  .projects-grid { grid-template-columns: 1fr; }
+}
+
+  </style>
+</head>
+<body>
+
+
+<!--  ===== Header ===== -->
+<header>
+  <div class="container nav">
+     
+    <!-- ===== Nav Links with Icons ===== -->
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#home" class="active" title="Home"><i class="fas fa-home"></i></a>
+      <a href="#about" title="About"><i class="fas fa-user"></i></a>
+      <a href="#projects" title="Projects"><i class="fas fa-folder-open"></i></a>
+      <a href="#experience" title="Experience"><i class="fas fa-briefcase"></i></a>
+      <a href="#resume" title="Resume"><i class="fas fa-file-alt"></i></a>
+      <!-- <a href="#contact" title="Contact"><i class="fas fa-envelope"></i></a> -->
+    </nav>
+
+    <!-- Hamburger for mobile -->
+    <button class="hamburger" id="menuBtn" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
+      <span></span>
+    </button>
+  </div>
+
+  <!-- ===== Mobile Menu (with icons too) ===== -->
+  <div class="container mobile-menu" id="mobileMenu">
+    <a href="#home"><i class="fas fa-home"></i> Home</a>
+    <a href="#about"><i class="fas fa-user"></i> About</a>
+    <a href="#projects"><i class="fas fa-folder-open"></i> Projects</a>
+    <a href="#experience"><i class="fas fa-briefcase"></i> Experience</a>
+    <a href="#resume"><i class="fas fa-file-alt"></i> Resume</a>
+    <!-- <a href="#contact"><i class="fas fa-envelope"></i> Contact</a> -->
+  </div>
+</header>
+
+<!-- Font Awesome (add in <head> if not already there) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+<style>
+  /* Add spacing between icons */
+  .nav-links {
+    display: flex;
+    gap: 2rem; /* increase space between icons */
+    font-size: 1.5rem; /* make icons slightly bigger */
+  }
+
+  .nav-links a {
+    color: #333;
+    transition: color 0.3s ease;
+  }
+
+  .nav-links a:hover {
+    color: var(--primary); /* highlight on hover */
+  }
+</style>
+
+
+
+  <!-- ===== Hero ===== -->
+<section id="home" class="hero container" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:60px 20px;">
+  <div>
+     <h1 class="headline">
+  Hi, I'm <span style="color:var(--primary); font-family:Arial, Helvetica, sans-serif">AMRITA</span> 👋
+</h1>
+
+    <p style="max-width:700px; margin:1rem auto; font-size:1.1rem; line-height:1.6; color:#475569;">
+      A passionate <strong>Front-End Developer</strong> and <strong>Data Analyst enthusiast</strong> who loves creating beautiful, 
+      responsive websites and exploring the world of data. I enjoy turning ideas into reality through code, 
+      while continuously learning and growing my technical skills. 🚀
+    </p>
+  </div>
+</section>
+
+
+<!-- ===== About ===== -->
+<section id="about" class="container">
+  <h2 class="section-title">About Me</h2>
+  <div style="display:flex; align-items:center; gap:2rem; flex-wrap:wrap;">
+    <p style="flex:1; min-width:250px; margin-top:-15px;"> 
+      I am a Front-End Developer passionate about building responsive, user-friendly, 
+      and high-performance websites. Alongside web development, I am also an aspiring 
+      Data Analyst focusing on Excel, SQL, Python, and data visualization. I enjoy 
+      solving problems, automating tasks, and creating solutions that are useful and easy to use.
+    </p>
+    <div class="hero-card">
+      <img class="avatar" src="assets/images/amrita_photo.jpg" alt="Your portrait" />
+    </div>
+  </div>
+</section>
+
+<style>
+  #about .section-title {
+  margin-bottom: 8px;   /* less space under "About Me" */
+}
+
+#about p {
+  margin-top: 0;        /* remove extra space above paragraph */
+}
+
+#about {
+  padding-top: 40px;   /* decrease this number to move section up */
+}
+</style>
+
+
+
+  <!-- Skills Section -->
+<section id="skills">
+  <h2 class="section-title">⚡ Skills</h2>
+  <div class="skills-container">
+
+    <!-- HTML -->
+    <div class="skill">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML" width="40" height="40">
+      <p>HTML</p>
+    </div>
+
+    <!-- CSS -->
+    <div class="skill">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS" width="40" height="40">
+      <p>CSS</p>
+    </div>
+
+    <!-- Python -->
+    <div class="skill">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" width="40" height="40">
+      <p>Python</p>
+    </div>
+
+    <!-- SQL -->
+    <div class="skill">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="SQL" width="40" height="40">
+      <p>SQL</p>
+    </div>
+
+     <!-- Excel -->
+      <div class="skill">
+        <img src="https://img.icons8.com/color/48/microsoft-excel-2019.png" alt="Excel Icon">
+        <p>Excel</p>
+      </div>
+
+      <!-- NumPy -->
+      <div class="skill">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/31/NumPy_logo_2020.svg" style="width:48px; height:48px;" alt="NumPy Icon">
+        <p>NumPy</p>
+      </div>
+
+      <!-- Pandas -->
+      <div class="skill">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Pandas_logo.svg" style="width:48px; height:48px;" alt="Pandas Icon">
+        <p>Pandas</p>
+      </div>
+  </div>
+</section>
+
+
+  <style>
+#skills {
+    background-color: #f8fafc;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+#skills .section-title {
+    font-size: 28px;
+    color: black;
+    margin-bottom: 20px;
+}
+
+.skills-container {            
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; 
+    gap: 40px;
+}
+
+.skill {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    cursor: default;
+    transition: transform 0.3s ease;
+}
+
+.skill img {
+    width: 60px;
+    height: 60px;
+    transition: transform 0.3s ease;
+}
+
+.skill img:hover {
+    transform: scale(1.2);
+}
+
+.skill p {
+    margin-top: 10px;
+    font-size: 16px;
+    color: black;
+}
+</style>
+
+
+  <script>
+  const skillElements = document.querySelectorAll('.skill');
+  const infoBox = document.getElementById('skill-info');
+
+  skillElements.forEach(skill => {
+    skill.addEventListener('click', () => {
+      const info = skill.getAttribute('data-info');
+      infoBox.textContent = info;
+      infoBox.style.display = 'block';
+    });
+  });
+    </script>
+
+
+<!-- ===== Projects ===== -->  
+  <section id="projects" style="background:#f8fafc">
+    <div class="container">
+      <h2 class="section-title">Projects</h2>
+      <p class="muted" style="margin-bottom:1rem">A few recent builds.</p><div class="projects-grid">
+    <!-- Card 1 -->
+    <article class="card">
+      <img src="https://picsum.photos/seed/p1/800/450" alt="Project 1 preview" />
+      <div class="card-body">
+        <h3>TechVerse — Learning Platform</h3>
+        <p class="muted">Developed a web-based responsive platform for online learning. Users can access 
+educational materials, navigate course content, and they can track their progress and a user-friendly
+design to enhance engagement and learning for the students.</p>
+
+        <div class="tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">Python</span>
+          <span class="tag">SQL</span>
+        </div>
+
+      </div>
+    </article>
+
+    <!-- Card 2 -->
+    <article class="card">
+       <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f" alt="Library Mananagement System">
+      <div class="card-body">
+        <h3>Library Management System</h3>
+        <p class="muted">Developed a system to manage library operations like issuing, returning,
+and tracking books and including features for managing student records and organizing book data for easy
+search and it ensures timely returns by tracking due dates.</p>
+        <div class="tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">Python</span>
+          <span class="tag">SQL</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 3 -->
+    <article class="card">
+      <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216" alt="Online Examination System">
+      <div class="card-body">
+        <h3>Online Examination System</h3>
+        <p class="muted">It is a web based platform where exams or tests can be conducted through the internet instead of traditional paper based methods and it include also Timer, MCQs, results dashboard, and keyboard‑only navigation. The students are also able to see their score.</p>
+         <div class="tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">Python</span>
+          <span class="tag">SQL</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="card">
+          <img src="https://images.unsplash.com/photo-1607082349566-187342175e2f" alt="E-commerce Website">
+
+          <div class="card-body">
+            <h3>E-commerce Website (Mini Store)</h3>
+            <p class="muted">It works like a small online shopping website.You can see a list of products (for example clothes, books, or gadgets) with images, names, and prices.
+                Users can add products to the cart, see how many items they selected, and the total price updates automatically.It also has a checkout page where the user can review their cart and proceed with the purchase.Data (like items in cart) can be stored in the browser’s LocalStorage, so if the user refreshes, the cart remains.</p>
+        <div class="tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">Python</span>
+          <span class="tag">SQL</span>
+        </div>
+          </div>
+        </article>
+
+  </div>
+</div>
+
+
+<!-- ===== Experience ===== -->
+<section id="experience">
+  <div class="container">
+    <h2 class="section-title">Experience</h2>
+    <!-- <div class="timeline"> -->
+      <!-- CVML Intern -->
+      <div class="item">
+        <h4>CVML Intern</h4>
+        <p> July 2024 – Aug 2024</p>
+        <p>
+          Worked on a Handwritten Language Recognition System that can read and understand handwritten text automatically. 
+          I prepared and cleaned a lot of handwritten images so the computer could understand them correctly. 
+          Then I trained a machine learning model to recognize different letters and words. 
+          I tested the model to make sure it was accurate and fixed errors when needed. 
+          I also learned how to handle large amounts of data and make the system faster and more reliable. 
+          This project helped me understand how computer vision works and gave me real experience with machine learning step by step.
+        </p>
+      </div>
+
+      <!-- Web Development Intern -->
+      <div class="item">
+        <h4>Web Developed Intern</h4>
+        <p>May 2025 – June 2025</p>
+        <p>
+          Worked on the Employee Suggestion Portal, a website where employees can share new ideas to improve the company. 
+          I designed and built the login page using HTML, CSS, and JavaScript so it looked nice and worked on both computers and phones. 
+          I made sure the website was easy to use and clear for everyone. 
+          Employees could submit their ideas, check the status of their suggestions, and see updates easily. 
+          I also worked with my team to make the website better by adding helpful features and fixing problems. 
+          This helped me learn how to make interactive and user-friendly websites and understand good design practices.
+        </p>
+        </p>
+      </div>
+    <!-- </div> -->
+  </div>
+</section> 
+
+
+  <!-- ===== Resume / CV Section ===== -->
+  <section id="resume">
+  <div class="container">
+    <h2 class="section-title">Resume</h2>
+
+    <!-- Description text -->
+    <p style="margin-bottom:1rem; color:#475569;">
+      Here is my professional CV, which includes my skills, experience, and projects. 
+      You can view it online or download it for reference.
+    </p>
+
+    <!-- Buttons -->
+    <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:2rem;">
+      <a class="btn btn-primary" href="assets/Amrita_resume.pdf" target="_blank">📄 View CV</a>
+      <a class="btn btn-primary" href="assets/Amrita_resume.pdf" download>📥 Download CV</a>
+    </div>
+  </div>
+</section>
+
+
+
+
+  <footer>
+  <div class="container" style="display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap;">
+
+    <!-- Heading -->
+    <h2 style="color:black; margin-bottom:0.1rem;">Connect with Me</h2>
+
+    <!-- Contact Info in a row -->
+    <div class="contact-info" style="display:flex; flex-direction:row; gap:1.5rem; flex-wrap:wrap;">
+
+      <!-- Email -->
+      <a href="mailto:amritarani71356@gmail.com" style="display:flex; align-items:center; gap:0.5rem;">
+        <img src="https://img.icons8.com/ios-glyphs/30/000000/new-post.png" style="width:30px; height:30px;">
+      </a>
+
+      <!-- LinkedIn -->
+      <a href="https://www.linkedin.com/in/p-amrita-bb7047360" target="_blank" style="display:flex; align-items:center; gap:0.5rem;">
+        <img src="https://img.icons8.com/ios-glyphs/30/000000/linkedin.png" style="width:30px; height:30px;">
+      </a>
+
+      <!-- GitHub -->
+      <a href="https://github.com/pamrita93923" target="_blank" style="display:flex; align-items:center; gap:0.5rem;">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" style="width:30px; height:30px;">
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn?.addEventListener('click', () => {
+      const isOpen = mobileMenu.style.display === 'block';
+      mobileMenu.style.display = isOpen ? 'none' : 'block';
+      menuBtn.setAttribute('aria-expanded', String(!isOpen));
+    });
+
+    const links = document.querySelectorAll('header nav a');
+    const sections = ['home','about','projects','experience','cv','contact'].map(id => document.getElementById(id));
+    const onScroll = () => {
+      const y = window.scrollY + 120;  
+      sections.forEach((sec, i) => {
+        if (!sec) return;
+        const top = sec.offsetTop;
+        const bottom = top + sec.offsetHeight;
+        const link = links[i];
+        if (y >= top && y < bottom) {
+          links.forEach(a => a.classList.remove('active'));
+          link?.classList.add('active');
+        }
+      });
+    };
+    window.addEventListener('scroll', onScroll);
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function sendEmail(e) {
+      e.preventDefault();
+      const data = new FormData(e.target);
+      const name = data.get('name');
+      const email = data.get('email');
+      const subject = data.get('subject') || 'Portfolio Contact';
+      const message = data.get('message');
+      const body = encodeURIComponent(`Hi, I'm ${name} (${email}).%0D%0A%0D%0A${message}`);
+      window.location.href = `mailto:you@example.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+      e.target.reset();
+    }
+  </script>
+</body>
+</html>
